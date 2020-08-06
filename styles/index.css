@@ -1,0 +1,116 @@
+#app,
+#game,
+#load,
+#selectPlayer,
+#result,
+#winner,
+#winner h1,
+#winner #winner,
+#loser,
+#loser h1,
+#loser #loser,
+#challenge,
+#challenge img,
+#word
+#word h2,
+#race,
+#race:nth-child(1),
+#race:nth-child(2),
+#board,
+.key
+/* .key[id] */ {
+  display: none;
+}
+
+:root {
+  --loadWidth: 50%;
+  --loadHeight: 100px;
+  --loadColor: rgb(238, 38, 38);
+
+  --loadFonSize: 20px;
+  --loadLetterSpacing: 5px;
+  --loadSpacing: 5px;
+  --loadLevelWidth: 150px;
+  --loadLevelHeight: 8px;
+  --loadLevelColor1: rgb(12, 12, 184);
+  --loadLevelColor2: rgb(238, 255, 0);
+  --loadSpeed: 4s;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: blueviolet;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-width: 320px;
+  max-width: 800px;
+  background-color: chartreuse;
+}
+
+@keyframes load {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+#load {
+  /* display: flex; */
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--loadWidth);
+  height: var(--loadHeight);
+  background-color: var(--loadColor);
+}
+
+#load h1 {
+  font-size: var(--loadFonSize);
+  letter-spacing: var(--loadLetterSpacing);
+}
+
+#load #loadLevel {
+  margin-top: var(--loadSpacing);
+  width: var(--loadLevelWidth);
+  height: var(--loadLevelHeight);
+}
+
+#load #loadLevel div:nth-child(1) {
+  width: 100%;
+  height: 100%;
+  background: var(--loadLevelColor1);
+}
+
+#load #loadLevel div:nth-child(2) {
+  margin-top: calc(0px - var(--loadLevelHeight));
+  width: 0%;
+  height: 100%;
+  background: var(--loadLevelColor2);
+  animation: var(--loadSpeed) linear 0s infinite normal load;
+}
+
+/* ------------------------------------------------------------------------- */
+
+@media (max-width: 370px) {
+  :root {
+    --loadWidth: 80%;
+  }
+}
