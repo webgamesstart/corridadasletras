@@ -66,12 +66,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
-  min-width: 320px;
-  max-width: 600px;
-  min-height: 600px;
-  max-height: 600px;
+  width: 600px;
+  height: 600px;
   background-color: chartreuse;
 }
 
@@ -193,14 +189,16 @@
 /* #region battleZone */
 
 #battleZone{
+  /* #app #game */
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 2fr 1fr ;
-  grid-template-rows: 30vh 1fr 8vh 50vh;
+  grid-template-columns: 70% 30% ;
+  grid-template-rows: 30% 10% 10% 50%;
 }
 
 #challenge{
+  /* #battleZone */
   background-color: rgb(12, 12, 184);
   grid-column: 1/2;
   grid-row: 1/3;
@@ -209,27 +207,32 @@
   justify-content: flex-end;
   align-items: center;
   overflow:hidden;
+  padding-bottom: 3px;
 }
 
 #challenge img{
+  /* #battleZone */
   height: 90%;
 }
 
 #word{
+  /* #battleZone */
   background-color: rgb(255, 251, 4);
   grid-column: 1/2;
   grid-row: 3/4;
 }
 
 #race{
+  /* #battleZone */
   background-color: rgb(240, 4, 200);
   grid-column: 2/3;
-  grid-row: 1/4;
+  grid-row: 1/5;
 }
 
 #board{
+  /* #battleZone */
   background-color: rgb(245, 7, 46);
-  grid-column: 1/3;
+  grid-column: 1/2;
   grid-row: 4/5;
 }
 
@@ -244,6 +247,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  font-size: 32px;
+  font-weight: 700;
 }
 
 .keyWord{
@@ -254,6 +259,7 @@
   justify-content: center;
   align-items: center;
   overflow:hidden;
+  cursor: pointer;
 }
 
 /* #endregion board */
@@ -261,74 +267,94 @@
 
 /* ------------------------------------------------------------------------- */
 
-@media (max-width: 495px) {
-  :root {
-    --loadWidth: 80%;
-    --panelSelectPlayerTitleFontSize: 22px;
-    --selectPlayerWidth: 80%;
+@media (max-width: 320px) {
+  #game {
+    /* #app */
+    width: 320px;
+    height: 600px;
+  }
+  #battleZone{
+    /* #app #game */
+    grid-template-columns: 100% ;
+    grid-template-rows: 30% 10% 20% 40%;
   }
 
-  #battleZone{
-    grid-template-rows: 30vh 8vh 1fr 40vh;
-  }
   #challenge{
-    grid-column: 1/3;
+    /* #battleZone */
+    grid-column: 1/2;
     grid-row: 1/2;
   }
 
   #word{
-    grid-column: 1/3;
+    /* #battleZone */
+    grid-column: 1/2;
     grid-row: 2/3;
   }
 
   #race{
-    grid-column: 1/3;
+    /* #battleZone */
+    grid-column: 1/1;
     grid-row: 3/4;
   }
-}
 
-@media (orientation: landscape){
-  #battleZone{
-    grid-template-rows: 25vh 5vh 10vh 60vh;
-  }
-  #game {
-    min-width: 600px;
-    max-width: 600px;
-    min-height: 320px;
-    max-height: 320px;
-  }
-  #race{
-    grid-column: 2/3;
-    grid-row: 1/5;
-  }
   #board{
+    /* #battleZone */
     grid-column: 1/2;
     grid-row: 4/5;
   }
 }
 
-@media (min-width: 601px) {
-  #battleZone{
-    grid-template-rows: 30vh 1fr 15vh 50vh;
-  }
+@media (min-width: 650px) and (min-height: 620px) {
   #game {
-    min-width: 320px;
-    max-width: 600px;
-    min-height: 600px;
-    max-height: 600px;
+    /* #app */
+    width: 600px;
+    height: 600px;
   }
+  #battleZone{
+    /* #app #game */
+    grid-template-columns: 70% 30% ;
+    grid-template-rows: 30% 10% 10% 50%;
+  }
+
+  #challenge{
+    /* #battleZone */
+    grid-column: 1/2;
+    grid-row: 1/3;
+  }
+
+  #word{
+    /* #battleZone */
+    grid-column: 1/2;
+    grid-row: 3/4;
+  }
+
   #race{
+    /* #battleZone */
     grid-column: 2/3;
-    grid-row: 1/4;
+    grid-row: 1/5;
   }
+
   #board{
-    grid-column: 1/3;
+    /* #battleZone */
+    grid-column: 1/2;
     grid-row: 4/5;
   }
 }
 
-@media (max-width: 325px) {
-  :root {
-   --panelSelectPlayerTitleFontSize: 20px;
+@media (max-height: 320px){
+  #game {
+    /* #app */
+    width: 600px;
+    height: 320px;
+  }
+  #battleZone{
+    /* #app #game */
+    grid-template-columns: 70% 30% ;
+    grid-template-rows: 20% 40% 10% 30%;
+  }
+
+  #board{
+    font-size: 15px;
+    font-weight: 700;
   }
 }
