@@ -1,7 +1,16 @@
 #app,
 #game,
 #load,
+
 #panelSelectPlayer,
+#panelSelectPlayerTitle,
+#panelSelectPlayerTitle h1,
+#selectPlayer,
+#previous,
+#next,
+#characters img,
+
+#characters 
 #result,
 #winner,
 #winner h1,
@@ -9,10 +18,10 @@
 #loser,
 #loser h1,
 #loser #loser,
-#battleZone,
 
-.key
-/* .key[id] */ {
+#battleZone
+
+{
   display: none;
 }
 
@@ -33,9 +42,9 @@
   --panelSelectPlayerW: 80%;
   --panelSelectPlayerH: 40%;
   --panelSelectPlayerBGC: #fff;
-  
-  --panelSelectPlayerTitleHeight:20%;
-  --panelSelectPlayerTitleWidth:100%;
+
+  --panelSelectPlayerTitleHeight: 20%;
+  --panelSelectPlayerTitleWidth: 100%;
   --panelSelectPlayerTitleColor: #000;
   --panelSelectPlayerTitleFontSize: 32px;
 
@@ -46,6 +55,19 @@
   --characterHeight: 100%;
   --characterScale: 0.85;
 
+  --racerOneTop: 85%;
+  --racerOneWidth: 85px;
+  --racerOneHeight: 90px;
+  --racerOneX: -335px;
+  --racerOneY: -68px;
+  --racerOneScale: 0.4;
+
+  --racerTwoTop: 85%;
+  --racerTwoWidth: 65px;
+  --racerTwoHeight: 90px;
+  --racerTwoX: -317px;
+  --racerTwoY: -80px;
+  --racerTwoScale: 0.36;
 }
 
 #app {
@@ -122,20 +144,20 @@
 
 /* #region selectPlayer */
 
-#panelSelectPlayer{
-    display: none;
-    /* display: flex; */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: var(--panelSelectPlayerW);
-    height: var(--panelSelectPlayerH);
-    border: 1px solid #000;
-    background-color: var(--panelSelectPlayerBGC);
-    overflow:hidden;
+#panelSelectPlayer {
+  display: none;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--panelSelectPlayerW);
+  height: var(--panelSelectPlayerH);
+  border: 1px solid #000;
+  background-color: var(--panelSelectPlayerBGC);
+  overflow: hidden;
 }
 
-#panelSelectPlayerTitle{
+#panelSelectPlayerTitle {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -146,58 +168,57 @@
   /* background-color: rgb(12, 12, 184); */
 }
 
-#panelSelectPlayerTitle h1{
+#panelSelectPlayerTitle h1 {
   color: var(--panelSelectPlayerTitleColor);
   font-size: var(--panelSelectPlayerTitleFontSize);
 }
 
-#selectPlayer{
+#selectPlayer {
   /* #panelSelectPlayer */
   /* background-color: rgb(238, 38, 38); */
   width: var(--selectPlayerWidth);
-  height: var( --selectPlayerHeight);
+  height: var(--selectPlayerHeight);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  overflow:hidden;
+  overflow: hidden;
 }
 
-#previous, #next{
+#previous,
+#next {
   /* #panelSelectPlayer #selectPlayer */
   cursor: pointer;
 }
 
- #characters{
+#characters {
   /* #panelSelectPlayer #selectPlayer */
   width: var(--characterWidth);
   height: var(--characterHeight);
   /* background-color:  rgb(238, 255, 0); */
-  overflow:hidden;
+  overflow: hidden;
 }
 
-#characters img{
+#characters img {
   /* #panelSelectPlayer #selectPlayer */
   transform: scale(var(--characterScale));
   transition: all 0.5s ease;
 }
 
-
 /* #endregion selectPlayer */
-
 
 /* #region battleZone */
 
-#battleZone{
+#battleZone {
   /* #app #game */
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 70% 30% ;
+  grid-template-columns: 70% 30%;
   grid-template-rows: 30% 10% 10% 50%;
 }
 
-#challenge{
+#challenge {
   /* #battleZone */
   background-color: rgb(12, 12, 184);
   grid-column: 1/2;
@@ -206,44 +227,72 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  overflow:hidden;
+  overflow: hidden;
   padding-bottom: 3px;
 }
 
-#challenge img{
+#challenge img {
   /* #battleZone */
   height: 90%;
 }
 
-#word{
+#word {
   /* #battleZone */
   background-color: rgb(255, 251, 4);
   grid-column: 1/2;
   grid-row: 3/4;
 }
 
-#race{
+/* #region race */
+
+#racer {
   /* #battleZone */
   background-color: rgb(240, 4, 200);
   grid-column: 2/3;
   grid-row: 1/5;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-#board{
+#racerOne {
+  position: relative;
+  top: var(--racerOneTop);
+  width: var(--racerOneWidth);
+  height: var(--racerOneHeight);
+  /* border: 1px solid #000000; */
+  overflow: hidden;
+}
+
+#one {
+  transform: translateX(var(--racerOneX)) translateY(var(--racerOneY))
+    scale(var(--racerOneScale));
+}
+
+#racerTwo {
+  position: relative;
+  top: var(--racerTwoTop);
+  width: var(--racerTwoWidth);
+  height: var(--racerTwoHeight);
+  /* border: 1px solid #000000; */
+  overflow: hidden;
+}
+
+#two {
+  transform:translateX(var(--racerTwoX)) translateY(var(--racerTwoY)) scale(var(--racerTwoScale));
+}
+
+/* #endregion racer */
+
+/* #region board */
+
+#board {
   /* #battleZone */
   background-color: rgb(245, 7, 46);
   grid-column: 1/2;
   grid-row: 4/5;
-}
 
-
-/* #endregion battleZone */
-
-/* #region board */
-
-#board{
-  width: 100%;
-  height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
@@ -251,53 +300,78 @@
   font-weight: 700;
 }
 
-.keyWord{
+.keyWord {
   /* border: 1px solid #000; */
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow:hidden;
+  overflow: hidden;
   cursor: pointer;
 }
 
 /* #endregion board */
 
+/* #endregion battleZone */
 
 /* ------------------------------------------------------------------------- */
 
 @media (max-width: 320px) {
+   :root{
+  --racerOneTop: 0%;
+  --racerOneWidth:62px;
+  --racerOneHeight: 190px;
+  --racerOneX: -370px;
+  --racerOneY: -80px;
+  --racerOneScale: 0.3;
+
+  --racerTwoTop: 0%;
+  --racerTwoWidth: 40px;
+  --racerTwoHeight: 200px;
+  --racerTwoX: -347px;
+  --racerTwoY: -95px;
+  --racerTwoScale: 0.25;
+  }
   #game {
     /* #app */
     width: 320px;
     height: 600px;
   }
-  #battleZone{
+  #battleZone {
     /* #app #game */
-    grid-template-columns: 100% ;
+    grid-template-columns: 100%;
     grid-template-rows: 30% 10% 20% 40%;
   }
 
-  #challenge{
+  #challenge {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 1/2;
   }
 
-  #word{
+  #word {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 2/3;
   }
 
-  #race{
+  #racer {
     /* #battleZone */
     grid-column: 1/1;
     grid-row: 3/4;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
-  #board{
+#racerOne {
+  left: 2%;
+}
+
+#racerTwo {
+  left: 2%;
+}
+
+  #board {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 4/5;
@@ -310,50 +384,67 @@
     width: 600px;
     height: 600px;
   }
-  #battleZone{
+  #battleZone {
     /* #app #game */
-    grid-template-columns: 70% 30% ;
+    grid-template-columns: 70% 30%;
     grid-template-rows: 30% 10% 10% 50%;
   }
 
-  #challenge{
+  #challenge {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 1/3;
   }
 
-  #word{
+  #word {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 3/4;
   }
 
-  #race{
+  #racer {
     /* #battleZone */
     grid-column: 2/3;
     grid-row: 1/5;
   }
 
-  #board{
+  #board {
     /* #battleZone */
     grid-column: 1/2;
     grid-row: 4/5;
   }
 }
 
-@media (max-height: 320px){
+@media (max-height: 320px) {
+
+  :root{
+  --racerOneTop: 65%;
+  --racerOneWidth:82px;
+  --racerOneHeight: 150px;
+  --racerOneX: -335px;
+  --racerOneY: -50px;
+  --racerOneScale: 0.4;
+
+  --racerTwoTop: 53%;
+  --racerTwoWidth: 68px;
+  --racerTwoHeight: 150px;
+  --racerTwoX: -313px;
+  --racerTwoY: -30px;
+  --racerTwoScale: 0.4;
+  }
+ 
   #game {
     /* #app */
     width: 600px;
     height: 320px;
   }
-  #battleZone{
+  #battleZone {
     /* #app #game */
-    grid-template-columns: 70% 30% ;
+    grid-template-columns: 70% 30%;
     grid-template-rows: 20% 40% 10% 30%;
   }
 
-  #board{
+  #board {
     font-size: 15px;
     font-weight: 700;
   }
