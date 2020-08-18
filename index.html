@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title></title>
     <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./styles/myReset.css">
     <script defer src="./scripts/index.js"></script>
@@ -11,21 +11,33 @@
 <body>
     <div id="app">
 
+        <div id='basicProtection'></div>
+
+        <div id="splashScreen">
+            <h1>Corrida das letras</h1>
+            <h3>Clique para continuar</h3>
+        </div>
+
         <div id="game">
 
             <div id='load'>
-                <h1>Carregando</h1>
+                <h1>Carregando...</h1>
                 <div id="loadLevel">
                     <div></div>
                     <div></div>
                 </div>
             </div>
+
+            <!-- <div id="points">
             
-            <div id="panelSelectPlayer">
+            </div> -->
+
+            
+          <div id="panelSelectPlayer">
                 <div id="panelSelectPlayerTitle">
                     <h1>Selecione o seu jogador</h1>
                 </div>
-                <div id="selectPlayer">
+                <div id='selectPlayer'>
                     <h1 id='previous'><</h1>
                     <div id="characters">
                         <img draggable='false'></img>
@@ -34,11 +46,7 @@
                 </div>
             </div>
 
-            <div id="points">
-            
-            </div>
-            
-            <div id="result">
+            <!--   <div id="result">
                 <div id="winner">
                     <h1>Campeão</h1>
                     <img id='winner' src="" alt="">
@@ -47,7 +55,7 @@
                     <h1>Perdedor</h1>
                     <img id='loser' src="" alt="">
                 </div>
-            </div>
+            </div> -->
 
             <main id="battleZone">
 
@@ -59,9 +67,9 @@
                     <h2></h2>
                 </div>
                 
-                <div id="racer">
-                    <div id='racerOne'><img src="#" alt="" id="one" draggable='false'></div>
-                    <div id='racerTwo'><img src="#" alt="" id="two" draggable='false'></div>
+                <div id="speedWay">
+                    <div id='racerOne'><img src="#" alt="" draggable='false'></div>
+                    <div id='racerTwo'><img src="#" alt="" draggable='false'></div>
                 </div>
                 
                 <div id="board">
