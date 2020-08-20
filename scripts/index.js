@@ -1,65 +1,171 @@
 const cssElements = {
-    root: document.querySelector(":root"),
+  root: document.querySelector(":root"),
 
-    basicProtection: document.getElementById('basicProtection'),
+  basicProtection: document.getElementById("basicProtection"),
 
-    load: document.getElementById('load'),
-    loading: document.querySelector('#load :nth-child(1)'),
-    loadLevel: document.getElementById('loadLevel'),
-    loadLevelOne: document.querySelector('#loadLevel :nth-child(1)'),
-    loadLevelTwo: document.querySelector('#loadLevel :nth-child(2)'),
+  splashScreen: document.getElementById("splashScreen"),
 
-    battleZone: document.getElementById('battleZone'),
+  load: document.getElementById("load"),
+  loading: document.querySelector("#load :nth-child(1)"),
+  loadLevel: document.getElementById("loadLevel"),
+  loadLevelOne: document.querySelector("#loadLevel :nth-child(1)"),
+  loadLevelTwo: document.querySelector("#loadLevel :nth-child(2)"),
 
-    challenge: document.getElementById('challenge'),
-    challengeImage: document.querySelector("#challenge img")
+  panelSelectPlayer: document.getElementById("panelSelectPlayer"),
+  panelSelectPlayerTitle: document.getElementById("panelSelectPlayerTitle"),
+  SelectPlayerTitle: document.querySelector("#panelSelectPlayerTitle h1"),
+  selectPlayer: document.getElementById("selectPlayer"),
+  selectPlayerPrevious: document.getElementById("selectPlayerPrevious"),
+  selectPlayerNext: document.getElementById("selectPlayerNext"),
+  characters: document.getElementById("characters"),
+  charactersImg: document.querySelector("#characters img"),
+
+  battleZone: document.getElementById("battleZone"),
+
+  challenge: document.getElementById("challenge"),
+  challengeImage: document.querySelector("#challenge img"),
 };
 
-speedLoad = [500, 1000, 3000, 300, 2000];
-flagLoad = 0;
-controlLoader = null;
+let speedLoad = [500, 1000, 3000, 300, 2000];
+let flagLoad = 0;
+let controlLoader = null;
+
+let flagBreakPoint = getComputedStyle(cssElements.root).getPropertyValue("--breakPoint");
 
 let flagLevel = "000";
 
+let flagCharacter = 0;
+
+let competitors = [];
+
 const challengesLevel000 = [
-    "abelha",
-    "cachorro",
-    "gato",
-    "girafa",
-    "leao",
-    "pato",
-    "porco",
+  "abelha",
+  "cachorro",
+  "gato",
+  "girafa",
+  "leao",
+  "pato",
+  "porco",
 ];
 
-function show() {
-    cssElements.basicProtection.style.display = 'block';
-};
-function hide() {
-    cssElements.basicProtection.style.display = 'none';
+
+
+const allCharacters = [
+  {
+    name: "Bob Esponja",
+    file: "spongeBob",
+    width: "150px",
+    x: "-25px",
+    y: "-23px",
+    scale: "0.8",
+  },
+  {
+    name: "Patrick Estrela",
+    file: "starPatrick",
+    width: "120px",
+    x: "-178px",
+    y: "-28px",
+    scale: "0.80",
+  },
+];
+window.addEventListener('resize',function(){
+    flagBreakPoint = getComputedStyle(cssElements.root).getPropertyValue("--breakPoint");
+})
+
+function applyPropertiesToCharacters(index, width, x, y, scale){
+    allCharacters[index].width = width;
+    allCharacters[index].x = x;
+    allCharacters[index].y = y;
+    allCharacters[index].scale = scale;
 };
 
-function showLoad(){
-    cssElements.load.style.display = 'flex';
-    cssElements.loading.style.display = 'block';
-    cssElements.loadLevel.style.display = 'block';
-    cssElements.loadLevelOne.style.display = 'block';
-    cssElements.loadLevelTwo.style.display = 'block';
-    showLoader();
+switch (getComputedStyle(cssElements.root).getPropertyValue("--breakPoint")) {
+  case "000":
+    applyPropertiesToCharacters(index, width, x, y, scale);
+    break;
+  case "001":
+    applyPropertiesToCharacters(index, width, x, y, scale);
+    break;
+  case "002":
+    applyPropertiesToCharacters(index, width, x, y, scale);
+    break;
+  default:
+    break;
+};
+
+function load(resource, callback) {
+  showLoad();
+  resource.src = "../images/cartoons/characters.png";
+  resource.addEventListener("load", function () {
+    hideLoad();
+    callback();
+  });
+}
+
+function hideSplashScreen() {
+  cssElements.splashScreen.style.display = "none";
+}
+
+function showSelectPlayer() {
+  cssElements.panelSelectPlayer.style.display = "flex";
+  cssElements.panelSelectPlayerTitle.style.display = "flex";
+  cssElements.SelectPlayerTitle.style.display = "block";
+  cssElements.selectPlayer.style.display = "flex";
+  cssElements.selectPlayerPrevious.style.display = "block";
+  cssElements.selectPlayerNext.style.display = "block";
+  cssElements.characters.style.display = "block";
+  cssElements.charactersImg.style.display = "block";
+  showCharacters();
+}
+
+function hideSelectPlayer() {
+  cssElements.panelSelectPlayer.style.display = "none";
+  cssElements.panelSelectPlayerTitle.style.display = "none";
+  cssElements.SelectPlayerTitle.style.display = "none";
+  cssElements.selectPlayer.style.display = "none";
+  cssElements.selectPlayerPrevious.style.display = "none";
+  cssElements.selectPlayerNext.style.display = "none";
+  cssElements.characters.style.display = "none";
+  cssElements.charactersImg.style.display = "none";
+}
+
+function showCharacters() {
+  cssElements.root.style.setProperty(
+    "--characterWidth",
+    allCharacters[flagCharacter].width
+  );
+  cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+}
+
+function showBasicProtection() {
+  cssElements.basicProtection.style.display = "block";
+}
+function hideBasicProtection() {
+  cssElements.basicProtection.style.display = "none";
+}
+
+function showLoad() {
+  cssElements.load.style.display = "flex";
+  cssElements.loading.style.display = "block";
+  cssElements.loadLevel.style.display = "block";
+  cssElements.loadLevelOne.style.display = "block";
+  cssElements.loadLevelTwo.style.display = "block";
+  showLoader();
 }
 
 function showLoader() {
-    flagLoad = Math.floor(Math.random() * speedLoad.length);
-    cssElements.root.style.setProperty('--loadSpeed', `${speedLoad[flagLoad]}ms`);
-    controlLoader = setTimeout(showLoader, `${speedLoad[flagLoad]}`);
-};
+  flagLoad = Math.floor(Math.random() * speedLoad.length);
+  cssElements.root.style.setProperty("--loadSpeed", `${speedLoad[flagLoad]}ms`);
+  controlLoader = setTimeout(showLoader, `${speedLoad[flagLoad]}`);
+}
 
-function hideLoad(){
-    cssElements.load.style.display = 'none';
-    cssElements.loading.style.display = 'none';
-    cssElements.loadLevel.style.display = 'none';
-    cssElements.loadLevelOne.style.display = 'none';
-    cssElements.loadLevelTwo.style.display = 'none';
-    controlLoader = null;
+function hideLoad() {
+  cssElements.load.style.display = "none";
+  cssElements.loading.style.display = "none";
+  cssElements.loadLevel.style.display = "none";
+  cssElements.loadLevelOne.style.display = "none";
+  cssElements.loadLevelTwo.style.display = "none";
+  clearInterval(controlLoader);
 }
 
 function selectChallenge() {
@@ -69,23 +175,46 @@ function selectChallenge() {
   cssElements.challengeImage.setAttribute("src", temp);
 }
 
-function showBattleZone(){
-    cssElements.battleZone.style.display = 'grid';
-    showChallenge();
+function showBattleZone() {
+  cssElements.battleZone.style.display = "grid";
+  showChallenge();
 }
 
-function showChallenge(){
-    cssElements.challenge.style.display = 'flex';
-    cssElements.challengeImage.style.display = 'block';
+function showChallenge() {
+  cssElements.challenge.style.display = "flex";
+  cssElements.challengeImage.style.display = "block";
 }
 
+splashScreen.addEventListener("click", function () {
+  hideSplashScreen();
+  load(cssElements.charactersImg, showSelectPlayer);
+});
 
+cssElements.selectPlayerNext.addEventListener("click", function () {
+  if (flagCharacter < allCharacters.length - 1) {
+    flagCharacter++;
+    cssElements.root.style.setProperty(
+      "--characterWidth",
+      allCharacters[flagCharacter].width
+    );
+    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+  }
+});
 
+cssElements.selectPlayerPrevious.addEventListener("click", function () {
+  if (flagCharacter >= 1) {
+    flagCharacter--;
+    cssElements.root.style.setProperty(
+      "--characterWidth",
+      allCharacters[flagCharacter].width
+    );
+    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+  }
+});
 
-
-
-
-
+// document.body.onresize = function(){
+//     console.log();
+// }
 
 // const root = document.querySelector(":root");
 
@@ -98,12 +227,6 @@ function showChallenge(){
 
 // const racer1 = document.getElementById("one");
 // const racer2 = document.getElementById("two");
-
-// let flagCharacter = 0;
-
-// let flagLevel = "000";
-
-// let competitors = [];
 
 // const bobSponge = {
 //   agradecendo:{
@@ -166,25 +289,6 @@ function showChallenge(){
 //     scale: ''
 //   }
 // };
-
-// const allCharacters = [
-//   {
-//     name: "Bob Esponja",
-//     file: "bobSponge",
-//     width: "150px",
-//     x: "-25px",
-//     y: "-20px",
-//     scale: "0.85",
-//   },
-//   {
-//     name: "Patrick Estrela",
-//     file: "patrickStar",
-//     width: "120px",
-//     x: "-185px",
-//     y: "-18px",
-//     scale: "0.90",
-//   },
-// ];
 
 // const challengesLevel000 = [
 //   "abelha",

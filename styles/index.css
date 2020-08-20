@@ -10,6 +10,7 @@
 #loadLevel :nth-child(1),
 #loadLevel :nth-child(2),
 #points,
+
 #panelSelectPlayer,
 #panelSelectPlayerTitle,
 #panelSelectPlayerTitle h1,
@@ -18,6 +19,7 @@
 #next,
 #characters,
 #characters img,
+
 #battleZone,
 #challenge,
 #challenge img,
@@ -33,6 +35,8 @@
   display: none;
 }
 :root {
+  --breakPoint: '000';
+
   --loadWidth: 50%;
   --loadHeight: 100px;
   --loadColor: rgb(238, 38, 38);
@@ -68,6 +72,7 @@
   --paddingBottomChalenge: 3px;
 
   --challengeHeight: 90%;
+
 }
 
 #app {
@@ -109,6 +114,7 @@
   align-items: center;
   border-top: 5px solid #000;
   border-bottom: 1px solid #000;
+  cursor: pointer;
 }
 
 #splashScreen h1 {
@@ -221,19 +227,18 @@
 
 #selectPlayer {
   display: none;
-  /* display: block; */
   background-color: rgb(238, 38, 38);
   width: var(--selectPlayerWidth);
   height: var(--selectPlayerHeight);
-  display: flex;
+  /* display: flex; */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
 }
 
-#previous,
-#next {
+#selectPlayerPrevious,
+#selectPlayerNext {
   /* #panelSelectPlayer #selectPlayer */
   display: none;
   /* display: block; */
@@ -255,7 +260,6 @@
   /* #panelSelectPlayer #selectPlayer */
   display: none;
   /* display: block; */
-  transform: scale(var(--characterScale));
   transition: all 0.5s ease;
 }
 
@@ -300,7 +304,7 @@
 
 /* #region @media */
 
-@media (min-width: 800px) and (min-height: 600px) {
+@media (min-width: 800px) and (min-height: 560px) {
   :root {
     --breakPoint: "000";
   }
