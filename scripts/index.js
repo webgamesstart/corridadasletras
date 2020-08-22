@@ -30,7 +30,9 @@ let speedLoad = [500, 1000, 3000, 300, 2000];
 let flagLoad = 0;
 let controlLoader = null;
 
-let flagBreakPoint = getComputedStyle(cssElements.root).getPropertyValue("--breakPoint");
+let flagBreakPoint = Number(
+  getComputedStyle(cssElements.root).getPropertyValue("--breakPoint")
+);
 
 let flagLevel = "000";
 
@@ -48,50 +50,76 @@ const challengesLevel000 = [
   "porco",
 ];
 
-
-
 const allCharacters = [
   {
     name: "Bob Esponja",
     file: "spongeBob",
-    width: "150px",
-    x: "-25px",
-    y: "-23px",
-    scale: "0.8",
+    propertys: [
+      {
+        width: "150px",
+        x: "-25px",
+        y: "-23px",
+        scale: "0.8",
+      },
+      {
+        width: "150px",
+        x: "-25px",
+        y: "-23px",
+        scale: "0.8",
+      },
+      {
+        width: "120px",
+        x: "-55px",
+        y: "-40px",
+        scale: "0.65",
+      },
+    ],
   },
   {
     name: "Patrick Estrela",
     file: "starPatrick",
-    width: "120px",
-    x: "-178px",
-    y: "-28px",
-    scale: "0.80",
+    propertys: [
+      {
+        width: "120px",
+        x: "-178px",
+        y: "-28px",
+        scale: "0.8",
+      },
+      {
+        width: "120px",
+        x: "-178px",
+        y: "-20px",
+        scale: "0.8",
+      },
+      {
+        width: "100px",
+        x: "-175px",
+        y: "-38px",
+        scale: "0.65",
+      },
+    ],
   },
 ];
-window.addEventListener('resize',function(){
-    flagBreakPoint = getComputedStyle(cssElements.root).getPropertyValue("--breakPoint");
-})
 
-function applyPropertiesToCharacters(index, width, x, y, scale){
-    allCharacters[index].width = width;
-    allCharacters[index].x = x;
-    allCharacters[index].y = y;
-    allCharacters[index].scale = scale;
-};
+window.addEventListener("resize", function () {
+  let temp = Number(
+    getComputedStyle(cssElements.root).getPropertyValue("--breakPoint")
+  );
+  if (flagBreakPoint != temp) {
+    flagBreakPoint = Number(
+      getComputedStyle(cssElements.root).getPropertyValue("--breakPoint")
+    );
+    showCharacters();
+  }
+  
+});
 
-switch (getComputedStyle(cssElements.root).getPropertyValue("--breakPoint")) {
-  case "000":
-    applyPropertiesToCharacters(index, width, x, y, scale);
-    break;
-  case "001":
-    applyPropertiesToCharacters(index, width, x, y, scale);
-    break;
-  case "002":
-    applyPropertiesToCharacters(index, width, x, y, scale);
-    break;
-  default:
-    break;
-};
+// function applyPropertiesToCharacters(index, width, x, y, scale){
+//     allCharacters[index].width = width;
+//     allCharacters[index].x = x;
+//     allCharacters[index].y = y;
+//     allCharacters[index].scale = scale;
+// };
 
 function load(resource, callback) {
   showLoad();
@@ -132,9 +160,9 @@ function hideSelectPlayer() {
 function showCharacters() {
   cssElements.root.style.setProperty(
     "--characterWidth",
-    allCharacters[flagCharacter].width
+    allCharacters[flagCharacter].propertys[flagBreakPoint].width
   );
-  cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+  cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
 }
 
 function showBasicProtection() {
@@ -195,9 +223,9 @@ cssElements.selectPlayerNext.addEventListener("click", function () {
     flagCharacter++;
     cssElements.root.style.setProperty(
       "--characterWidth",
-      allCharacters[flagCharacter].width
+      allCharacters[flagCharacter].propertys[flagBreakPoint].width
     );
-    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
   }
 });
 
@@ -206,15 +234,11 @@ cssElements.selectPlayerPrevious.addEventListener("click", function () {
     flagCharacter--;
     cssElements.root.style.setProperty(
       "--characterWidth",
-      allCharacters[flagCharacter].width
+      allCharacters[flagCharacter].propertys[flagBreakPoint].width
     );
-    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].x}) translateY(${allCharacters[flagCharacter].y}) scale(${allCharacters[flagCharacter].scale},${allCharacters[flagCharacter].scale})`;
+    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
   }
 });
-
-// document.body.onresize = function(){
-//     console.log();
-// }
 
 // const root = document.querySelector(":root");
 
