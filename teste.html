@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <script>
+      let minhaPromise = function () {
+        return new Promise(function (resolve, reject) {
+          let xhr = new XMLHttpRequest();
+          xhr.open("GET", "./images/cartoons/characters.png");
+          xhr.responseType = 'blob';
+          xhr.send(null);
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              // 4 codigo de sucesso do ajax
+              if (xhr.status === 200) {
+                // 200 codigo de sucesso promisse
+                resolve(xhr.response);
+              } else {
+                reject("Erro na requisição");
+              }
+            }
+          };
+        });
+      };
+
+    async function executarPromise( ){
+
+    const response =  await minhaPromise();
+    
+    document.getElementsByTagName('body')[0].style.backgroundImage = `url(${window.URL.createObjectURL(response)})`;
+    
+    }
+
+executarPromise( );
+    </script>
+  </body>
+</html>
