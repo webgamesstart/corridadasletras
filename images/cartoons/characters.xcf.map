@@ -1,0 +1,15 @@
+<img src="characters.xcf" width="719" height="150" border="0" usemap="#map" />
+
+<map name="map">
+<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:2.3 -->
+<!-- #$AUTHOR:Carlos  -->
+<area shape="rect" coords="-1,-1,110,150" alt="spongeBobExpectation"  nohref="nohref" />
+<area shape="rect" coords="112,-1,247,149" alt="spongeBobThanking"  nohref="nohref" />
+<area shape="rect" coords="250,-1,340,150" alt="starPatrickExpectation"  nohref="nohref" />
+<area shape="rect" coords="345,0,487,150" alt="starPatrickThanking"  nohref="nohref" />
+<area shape="rect" coords="490,0,607,150" alt="spiderManExpectation"  nohref="nohref" />
+<area shape="rect" coords="608,1,714,149" alt="spiderManThanking"  nohref="nohref" />
+</map>
