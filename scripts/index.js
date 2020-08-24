@@ -54,72 +54,72 @@ const allCharacters = [
   {
     name: "Bob Esponja",
     file: "spongeBob",
-    propertys: [
+    expectation: [
       {
-        width: "150px",
-        x: "-140px",
-        y: "-30px",
-        scale: "0.75",
+        width: "110px",
+        height: "150px",
+        x: "-1px",
+        y: "-1x",
       },
       {
-        width: "150px",
-        x: "-88px",
-        y: "-30px",
-        scale: "0.75",
+        width: "110px",
+        height: "150px",
+        x: "-1px",
+        y: "-1px",
       },
       {
-        width: "120px",
-        x: "-148px",
-        y: "-48px",
-        scale: "0.60",
+        width: "110px",
+        height: "150px",
+        x: "-1px",
+        y: "-1px",
       },
     ],
   },
   {
     name: "Patrick Estrela",
     file: "starPatrick",
-    propertys: [
+    expectation: [
       {
-        width: "120px",
-        x: "-405px",
-        y: "-28px",
-        scale: "0.75",
+        width: "93px",
+        height: "150px",
+        x: "-250px",
+        y: "-1px",
       },
       {
-        width: "120px",
-        x: "-405px",
-        y: "-28px",
-        scale: "0.78",
+        width: "93px",
+        height: "150px",
+        x: "-250px",
+        y: "-1px",
       },
       {
-        width: "100px",
-        x: "-402px",
-        y: "-48px",
-        scale: "0.61",
+        width: "93px",
+        height: "150px",
+        x: "-250px",
+        y: "-1px",
       },
     ],
   },
   {
     name: "Homem Aranha",
     file: "spiderMan",
-    propertys: [
+    expectation: [
       {
-        width: "120px",
-        x: "-705px",
-        y: "-28px",
-        scale: "0.75",
+        width: "118px",
+        height: "150px",
+        x: "-490px",
+        y: "0px",
       },
       {
-        width: "120px",
-        x: "-405px",
-        y: "-28px",
-        scale: "0.78",
+        width: "118px",
+        height: "150px",
+        x: "-490px",
+        y: "0px",
       },
       {
-        width: "100px",
-        x: "-402px",
-        y: "-48px",
-        scale: "0.61",
+        width: "118px",
+        height: "150px",
+        x: "-490px",
+        y: "0px",
       },
     ],
   },
@@ -135,15 +135,7 @@ window.addEventListener("resize", function () {
     );
     showCharacters();
   }
-  
 });
-
-// function applyPropertiesToCharacters(index, width, x, y, scale){
-//     allCharacters[index].width = width;
-//     allCharacters[index].x = x;
-//     allCharacters[index].y = y;
-//     allCharacters[index].scale = scale;
-// };
 
 function load(resource, callback) {
   showLoad();
@@ -184,9 +176,16 @@ function hideSelectPlayer() {
 function showCharacters() {
   cssElements.root.style.setProperty(
     "--characterWidth",
-    allCharacters[flagCharacter].propertys[flagBreakPoint].width
+    allCharacters[flagCharacter].expectation[flagBreakPoint].width
   );
-  cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
+  cssElements.root.style.setProperty(
+    "--characterHeight",
+    allCharacters[flagCharacter].expectation[flagBreakPoint].height
+  );
+  cssElements.charactersImg.style.left =
+    allCharacters[flagCharacter].expectation[flagBreakPoint].x;
+  cssElements.charactersImg.style.top =
+    allCharacters[flagCharacter].expectation[flagBreakPoint].y;
 }
 
 function showBasicProtection() {
@@ -245,22 +244,14 @@ splashScreen.addEventListener("click", function () {
 cssElements.selectPlayerNext.addEventListener("click", function () {
   if (flagCharacter < allCharacters.length - 1) {
     flagCharacter++;
-    cssElements.root.style.setProperty(
-      "--characterWidth",
-      allCharacters[flagCharacter].propertys[flagBreakPoint].width
-    );
-    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
+    showCharacters();
   }
 });
 
 cssElements.selectPlayerPrevious.addEventListener("click", function () {
   if (flagCharacter >= 1) {
     flagCharacter--;
-    cssElements.root.style.setProperty(
-      "--characterWidth",
-      allCharacters[flagCharacter].propertys[flagBreakPoint].width
-    );
-    cssElements.charactersImg.style.transform = `translateX(${allCharacters[flagCharacter].propertys[flagBreakPoint].x}) translateY(${allCharacters[flagCharacter].propertys[flagBreakPoint].y}) scale(${allCharacters[flagCharacter].propertys[flagBreakPoint].scale},${allCharacters[flagCharacter].propertys[flagBreakPoint].scale})`;
+    showCharacters();
   }
 });
 

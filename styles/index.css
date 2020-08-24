@@ -262,6 +262,7 @@
 
 #characters img {
   /* #panelSelectPlayer #selectPlayer */
+  position: relative;
   display: none;
   /* display: block; */
   transition: none 0.5s ease;
