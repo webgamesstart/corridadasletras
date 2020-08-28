@@ -19,6 +19,7 @@ const htmlElements = {
   selectPlayerNext: document.getElementById("selectPlayerNext"),
   characters: document.getElementById("characters"),
   charactersImg: document.querySelector("#characters img"),
+  panelSelectPlayerOK: document.getElementById("OK"),
 
   battleZone: document.getElementById("battleZone"),
 
@@ -33,7 +34,7 @@ const htmlElements = {
   word: document.getElementById("word"),
   wordSelected: document.querySelector("#word h2"),
 
-  board: document.getElementById("board"),
+  board: document.getElementById("board")
 };
 
 let speedLoad = [500, 1000, 3000, 300, 2000];
