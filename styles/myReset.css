@@ -8,15 +8,8 @@
   font-size: 12px;
   position: static;
   float: none;
-  display: block;
+  display: none;
   box-sizing: border-box;
-}
-
-strong,
-small,
-em,
-a {
-  display: inline;
 }
 
 pre {
