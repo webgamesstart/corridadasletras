@@ -10,6 +10,11 @@
   float: none;
   display: none;
   box-sizing: border-box;
+  user-select: none;
+}
+
+body, html{
+  display: block;
 }
 
 pre {

@@ -3,14 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
-    <link rel="stylesheet" href="./styles/index.css" />
+    <title>Corrida de letras</title>
     <link rel="stylesheet" href="./styles/myReset.css" />
+    <link rel="stylesheet" href="./styles/index.css" />
     <script defer src="./scripts/index.js"></script>
   </head>
   <body>
     <div id="app">
       <div id="basicProtection"></div>
+
+      <div id="message">
+        <p>erro</p>
+        <p>aguarde ou clique para sair</p>
+      </div>
 
       <div id="homeScreen">
         <h1>Corrida das letras</h1>
@@ -18,7 +23,6 @@
       </div>
 
       <div id="game">
-          
         <div id="load">
           <h1>Carregando...</h1>
           <div id="loadLevel">
@@ -59,7 +63,7 @@
 
         <main id="battleZone">
           <div id="containerChallenge">
-            <img src="#" alt="" />
+            <img draggable="false" src="#" alt="" />
           </div>
 
           <div id="word">
@@ -72,36 +76,39 @@
           </div>
 
           <div id="board">
-            <div class="keyWord" id="A">A</div>
-            <div class="keyWord" id="B">B</div>
-            <div class="keyWord" id="C">C</div>
-            <div class="keyWord" id="D">D</div>
-            <div class="keyWord" id="E">E</div>
-            <div class="keyWord" id="F">F</div>
-            <div class="keyWord" id="G">G</div>
-            <div class="keyWord" id="H">H</div>
-            <div class="keyWord" id="I">I</div>
-            <div class="keyWord" id="J">J</div>
-            <div class="keyWord" id="K">K</div>
-            <div class="keyWord" id="L">L</div>
-            <div class="keyWord" id="M">M</div>
-            <div class="keyWord" id="N">N</div>
-            <div class="keyWord" id="O">O</div>
-            <div class="keyWord" id="P">P</div>
-            <div class="keyWord" id="Q">Q</div>
-            <div class="keyWord" id="R">R</div>
-            <div class="keyWord" id="S">S</div>
-            <div class="keyWord" id="T">T</div>
-            <div class="keyWord" id="U">U</div>
-            <div class="keyWord" id="V">V</div>
-            <div class="keyWord" id="W">W</div>
-            <div class="keyWord" id="x">X</div>
-            <div class="keyWord" id="Y">Y</div>
-            <div class="keyWord" id="Z">Z</div>
-            <div class="keyWord" id="tilde">~</div>
-            <div class="keyWord" id="circumflex">^</div>
-            <div class="keyWord" id="acute">´</div>
-            <div class="keyWord" id="space">| |</div>
+            <div id="containerLetters">
+              <div class="keyWord" id="A">A</div>
+              <div class="keyWord" id="B">B</div>
+              <div class="keyWord" id="C">C</div>
+              <div class="keyWord" id="D">D</div>
+              <div class="keyWord" id="E">E</div>
+              <div class="keyWord" id="F">F</div>
+              <div class="keyWord" id="G">G</div>
+              <div class="keyWord" id="H">H</div>
+              <div class="keyWord" id="I">I</div>
+              <div class="keyWord" id="J">J</div>
+              <div class="keyWord" id="K">K</div>
+              <div class="keyWord" id="L">L</div>
+              <div class="keyWord" id="M">M</div>
+              <div class="keyWord" id="N">N</div>
+              <div class="keyWord" id="O">O</div>
+              <div class="keyWord" id="P">P</div>
+              <div class="keyWord" id="Q">Q</div>
+              <div class="keyWord" id="R">R</div>
+              <div class="keyWord" id="S">S</div>
+              <div class="keyWord" id="T">T</div>
+              <div class="keyWord" id="U">U</div>
+              <div class="keyWord" id="V">V</div>
+              <div class="keyWord" id="W">W</div>
+              <div class="keyWord" id="x">X</div>
+              <div class="keyWord" id="Y">Y</div>
+              <div class="keyWord" id="Z">Z</div>
+              <div class="keyWord" id="tilde">~</div>
+              <div class="keyWord" id="circumflex">^</div>
+              <div class="keyWord" id="acute">´</div>
+              <div class="keyWord" id="hyphen">-</div>
+              <div class="keyWord" id="space">| |</div>
+            </div>
           </div>
         </main>
       </div>

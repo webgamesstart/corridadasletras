@@ -1,297 +1,628 @@
-const htmlElements = {
-  root: document.querySelector(":root"),
+// ---- SESSÕES -----------------------------------
 
-  basicProtection: document.getElementById("basicProtection"),
+//----- Basic Protection -----
+//----- Messages -----
+// ---- Home screen -----------------------
+// ---- Screen Load ------------------------
+// ---- Start Game -------------------------
+// ---- Select Player ------------------
+// ---- Battle Zone ------------------------------------
+// ---- Challenges -----------------------------------------
+// ---- Word ------------------------------------------------
+// ---- Board ----------------------------------------------
+// ---- Key Word -----------------------------------------
+// ---- speedWay -------------------------------------------
+// ---- Loader files ------------------------
 
-  homeScreen: document.getElementById("homeScreen"),
+const $root = document.querySelector(":root");
 
-  load: document.getElementById("load"),
-  loading: document.querySelector("#load :nth-child(1)"),
-  loadLevel: document.getElementById("loadLevel"),
-  loadLevelOne: document.querySelector("#loadLevel :nth-child(1)"),
-  loadLevelTwo: document.querySelector("#loadLevel :nth-child(2)"),
+let flagBreakPoint = Number(
+  getComputedStyle($root).getPropertyValue("--breakPoint")
+);
 
-  panelSelectPlayer: document.getElementById("panelSelectPlayer"),
-  panelSelectPlayerTitle: document.getElementById("panelSelectPlayerTitle"),
-  SelectPlayerTitle: document.querySelector("#panelSelectPlayerTitle h1"),
-  selectPlayer: document.getElementById("selectPlayer"),
-  selectPlayerPrevious: document.getElementById("selectPlayerPrevious"),
-  selectPlayerNext: document.getElementById("selectPlayerNext"),
-  characters: document.getElementById("characters"),
-  charactersImg: document.querySelector("#characters img"),
-  panelSelectPlayerOK: document.getElementById("OK"),
+//----- Basic Protection -----
 
-  battleZone: document.getElementById("battleZone"),
+const $basicProtection = document.getElementById("basicProtection");
 
-  containerChallenge: document.getElementById("containerChallenge"),
-  challengeImage: document.querySelector("#challenge img"),
+//----- Messages -----
 
-  speedWay: document.getElementById("speedWay"),
-  racersImgs: document.querySelectorAll("#speedWay div img"),
-  racerOne: document.getElementById("racerOne"),
-  racerTwo: document.getElementById("racerTwo"),
+const $messageContainer = document.getElementById("message");
+const $message = document.querySelector("#message p");
 
-  word: document.getElementById("word"),
-  wordSelected: document.querySelector("#word h2"),
+let flagMessageTime = null;
+let standardMessage = "";
+let standardMessageTime = 1000;
+let standardShowMessageFunctions = [];
+let standardHideMessageFunctions = [];
 
-  board: document.getElementById("board")
-};
+// ---- Home screen -----------------------
+
+$homeScreen = document.getElementById("homeScreen");
+$homeScreenTitulo = document.querySelector("#homeScreen h1");
+$homeScreenObservacao = document.querySelector("#homeScreen h3");
+
+// ---- Screen Load ------------------------
+
+const $load = document.getElementById("load");
+const $loading = document.querySelector("#load :nth-child(1)");
+const $loadLevel = document.getElementById("loadLevel");
+const $loadLevelOne = document.querySelector("#loadLevel :nth-child(1)");
+const $loadLevelTwo = document.querySelector("#loadLevel :nth-child(2)");
 
 let speedLoad = [500, 1000, 3000, 300, 2000];
 let flagLoad = 0;
 let controlLoader = null;
 
-let flagBreakPoint = Number(
-  getComputedStyle(htmlElements.root).getPropertyValue("--breakPoint")
+// ---- Start Game -------------------------
+
+// ---- Select Player ------------------
+
+const $panelSelectPlayer = document.getElementById("panelSelectPlayer");
+const $panelSelectPlayerTitle = document.getElementById(
+  "panelSelectPlayerTitle"
 );
-
-let flagLevel = "000";
-
-let filesTheLoad = [];
-let resourcesTheLoad = [];
+const $SelectPlayerTitle = document.querySelector("#panelSelectPlayerTitle h1");
+const $selectPlayer = document.getElementById("selectPlayer");
+const $selectPlayerPrevious = document.getElementById("selectPlayerPrevious");
+const $selectPlayerNext = document.getElementById("selectPlayerNext");
+const $characters = document.getElementById("characters");
+const $charactersImg = document.querySelector("#characters img");
+const $panelSelectPlayerOK = document.getElementById("OK");
 
 let flagCharacter = 0;
 
-let competitors = [];
+const characters = ["spongeBob", "starPatrick", "spiderMan"];
+let charactersReturn = [];
+let characterThankingReturn = [];
+
+// ---- Battle Zone ------------------------------------
+
+$battleZone = document.getElementById("battleZone");
+
+let filesLoadedToTheBattleZone = [];
+
+// ---- Challenges -----------------------------------------
+
+$containerChallenge = document.getElementById("containerChallenge");
+$challengeImage = document.querySelector("#containerChallenge img");
+
+let flagLevel = "000";
 
 const challengesLevel000 = [
   "abelha",
   "cachorro",
   "gato",
   "girafa",
-  "leao",
+  "leão",
   "pato",
   "porco",
 ];
 
-// window.addEventListener("resize", function () {
-//   let temp = Number(
-//     getComputedStyle(htmlElements.root).getPropertyValue("--breakPoint")
-//   );
-//   if (flagBreakPoint != temp) {
-//     flagBreakPoint = Number(
-//       getComputedStyle(htmlElements.root).getPropertyValue("--breakPoint")
-//     );
-//     showCharacters();
-//   }
-// });
+let selectedChallenge = "";
+let selectedChallengeReturn = [];
 
-function load(resource, image, callback) {
-  showLoad();
-  resource.src = image;
-  resource.addEventListener("load", function () {
-    hideLoad();
-    callback();
-  });
-}
+// ---- Word ------------------------------------------------
 
-function loadMultipleFiles(resources, images, callback) {
-  showLoad();
-  let temp = 0;
-  for (let i = 0; i < resources.length; i++) {
-    resources[i].src = images[i];
-    resources[i].addEventListener("load", function () {
-      temp++;
-      if (temp >= resources.length) {
-        hideLoad();
-        callback();
-      }
-    });
-  }
-}
+const $wordContainer = document.getElementById("word");
+const $word = document.querySelector("#word h2");
+let challengeWord = "";
+let totalLetters = 0;
+let indexLetterCurrent = 0;
+let letterCurrent = "";
 
-function showHomeScreen() {
-  htmlElements.homeScreen.style.display = "block";
-}
+$word.textContent = "";
 
-function hideHomeScreen() {
-  htmlElements.homeScreen.style.display = "none";
-}
+// ---- Board ----------------------------------------------
 
-function showSelectPlayer() {
-  htmlElements.panelSelectPlayer.style.display = "flex";
-  htmlElements.panelSelectPlayerTitle.style.display = "flex";
-  htmlElements.SelectPlayerTitle.style.display = "block";
-  htmlElements.selectPlayer.style.display = "flex";
-  htmlElements.selectPlayerPrevious.style.display = "block";
-  htmlElements.selectPlayerNext.style.display = "block";
-  htmlElements.characters.style.display = "block";
-  htmlElements.charactersImg.style.display = "block";
-  showCharacters();
-}
+$board = document.getElementById("board");
+$containerLetters = document.getElementById("containerLetters");
 
-function hideSelectPlayer() {
-  htmlElements.panelSelectPlayer.style.display = "none";
-  htmlElements.panelSelectPlayerTitle.style.display = "none";
-  htmlElements.SelectPlayerTitle.style.display = "none";
-  htmlElements.selectPlayer.style.display = "none";
-  htmlElements.selectPlayerPrevious.style.display = "none";
-  htmlElements.selectPlayerNext.style.display = "none";
-  htmlElements.characters.style.display = "none";
-  htmlElements.charactersImg.style.display = "none";
-}
+// ---- Key Word -----------------------------------------
 
-function showCharacters() {
-  htmlElements.root.style.setProperty(
-    "--characterWidth",
-    allCharacters[flagCharacter].expectation[flagBreakPoint].width
-  );
-  htmlElements.root.style.setProperty(
-    "--characterHeight",
-    allCharacters[flagCharacter].expectation[flagBreakPoint].height
-  );
-  htmlElements.charactersImg.style.left =
-    allCharacters[flagCharacter].expectation[flagBreakPoint].x;
-  htmlElements.charactersImg.style.top =
-    allCharacters[flagCharacter].expectation[flagBreakPoint].y;
-}
+const $keyWord = document.getElementsByClassName("keyWord");
 
-function showCharactersThanking() {
-  htmlElements.root.style.setProperty(
-    "--characterWidth",
-    allCharacters[flagCharacter].thanking.width
-  );
-  htmlElements.root.style.setProperty(
-    "--characterHeight",
-    allCharacters[flagCharacter].thanking.height
-  );
-  htmlElements.charactersImg.style.left =
-    allCharacters[flagCharacter].thanking.x;
-  htmlElements.charactersImg.style.top =
-    allCharacters[flagCharacter].thanking.y;
-  setTimeout(showBattleZone, 1000);
-}
+// ---- speedWay -------------------------------------------
+
+$speedWay = document.getElementById("speedWay");
+let speedWaySize = 0;
+
+$racerOne = document.getElementById("racerOne");
+$racerTwo = document.getElementById("racerTwo");
+$racerOneImg = document.querySelector("#racerOne img");
+$racerTwoImg = document.querySelector("#racerTwo img");
+
+let racers = [];
+let racersReturn = [];
+
+// ---- Loader files ------------------------
+
+let flagLoadFiles = 0;
+
+///////////////////// - Lógica - /////////////////////
+
+//----- Basic Protection -----
 
 function showBasicProtection() {
-  htmlElements.basicProtection.style.display = "block";
-}
-function hideBasicProtection() {
-  htmlElements.basicProtection.style.display = "none";
+  $basicProtection.style.display = "block";
 }
 
+function hideBasicProtection() {
+  $basicProtection.style.display = "none";
+}
+
+// ---- Fim Basic Protection --------
+
+//----- Messages -----
+
+$messageContainer.addEventListener("click", hideMessage);
+
+function showMessage(msg, time) {
+  showBasicProtection();
+  $messageContainer.style.display = "flex";
+  $message.textContent = msg || standardMessage;
+  $message.style.display = "block";
+  document.querySelector("#message :nth-child(2)").style.display = "block";
+  flagMessageTime = setTimeout(hideMessage, time || standardMessageTime);
+  if (standardShowMessageFunctions.length != 0) {
+    for (const temp of standardShowMessageFunctions) {
+      temp();
+    }
+    standardShowMessageFunctions = [];
+  }
+}
+function hideMessage(msg) {
+  $messageContainer.style.display = "none";
+  $message.textContent = "";
+  $message.style.display = "none";
+  document.querySelector("#message :nth-child(2)").style.display = "none";
+  if (standardHideMessageFunctions.length != 0) {
+    for (const temp of standardHideMessageFunctions) {
+      temp();
+    }
+    standardHideMessageFunctions = [];
+  }
+  flagMessageTime = null;
+  standardMessage = "";
+  standardMessageTime = 1000;
+  hideBasicProtection();
+}
+
+// ---- Fim Messages -------------------
+
+// ---- Home screen -----------------------
+
+function showHomeScreen() {
+  $homeScreen.style.display = "flex";
+  $homeScreenTitulo.style.display = "block";
+  $homeScreenObservacao.style.display = "block";
+}
+function hideHomeScreen() {
+  $homeScreen.style.display = "none";
+  $homeScreenTitulo.style.display = "none";
+  $homeScreenObservacao.style.display = "none";
+}
+
+// ---- The end Home screen ---------------
+
+// ---- Screen Load ------------------------
+
 function showLoad() {
-  htmlElements.load.style.display = "flex";
-  htmlElements.loading.style.display = "block";
-  htmlElements.loadLevel.style.display = "block";
-  htmlElements.loadLevelOne.style.display = "block";
-  htmlElements.loadLevelTwo.style.display = "block";
+  showBasicProtection();
+  $load.style.display = "flex";
+  $loading.style.display = "block";
+  $loadLevel.style.display = "block";
+  $loadLevelOne.style.display = "block";
+  $loadLevelTwo.style.display = "block";
   showLoader();
 }
 
 function showLoader() {
   flagLoad = Math.floor(Math.random() * speedLoad.length);
-  htmlElements.root.style.setProperty(
-    "--loadSpeed",
-    `${speedLoad[flagLoad]}ms`
-  );
+  $root.style.setProperty("--loadSpeed", `${speedLoad[flagLoad]}ms`);
   controlLoader = setTimeout(showLoader, `${speedLoad[flagLoad]}`);
 }
 
 function hideLoad() {
-  htmlElements.load.style.display = "none";
-  htmlElements.loading.style.display = "none";
-  htmlElements.loadLevel.style.display = "none";
-  htmlElements.loadLevelOne.style.display = "none";
-  htmlElements.loadLevelTwo.style.display = "none";
+  hideBasicProtection();
+  $load.style.display = "none";
+  $loading.style.display = "none";
+  $loadLevel.style.display = "none";
+  $loadLevelOne.style.display = "none";
+  $loadLevelTwo.style.display = "none";
   clearInterval(controlLoader);
 }
 
-function showChallenge() {
-  htmlElements.challenge.style.display = "block";
-  htmlElements.challengeImage.style.display = "block";
-  showChallengeSelected();
-}
-function hideChallenge() {
-  htmlElements.challenge.style.display = "none";
-  htmlElements.challengeImage.style.display = "none";
+// ---- End Screen Load ------------------------
+
+// ---- Start Game -------------------------
+
+document.addEventListener("click", startGame);
+window.addEventListener("resize", upadateInformation);
+
+function startGame() {
+  standardMessage = "Erro ao carregar personagens";
+  standardMessageTime = 10000;
+  standardShowMessageFunctions[0] = hideLoad;
+  hideHomeScreen();
+  showLoad();
+  let charactersTemp = [];
+  for (let i = 0; i < characters.length; i++) {
+    charactersTemp[
+      i
+    ] = `../images/cartoons/${characters[i]}/${characters[i]}Expectation.png`;
+  }
+  loadMultipleFiles(
+    charactersTemp,
+    [showSelectPlayer, showMessage],
+    charactersReturn
+  );
+  document.removeEventListener("click", startGame);
 }
 
-function selectChallenge() {
-  let level = eval(`challengesLevel${flagLevel}`);
-  let random = Math.floor(Math.random() * level.length);
-  let temp = `./images/challenges/level${flagLevel}/${level[random]}.png`;
-  htmlElements.challengeImage.setAttribute("src", temp);
-}
-
-function showChallengeSelected() {
-  // let temp = selectChallenge();
-  let temp = challengesLevel000[0][1];
-  console.log(temp.nome);
-  htmlElements.challenge.style.width = temp.width;
-  htmlElements.challengeImage.style.left = temp.x;
-}
-
-function selectFileChallenge() {
-  let level = eval(`challengesLevel${flagLevel}`);
-  if (flagFileForLevel <= level.length) {
-    fileChallengeTheLoad = `../images/challenges/level${flagLevel}/${flagFileForLevel}.png`;
+function upadateInformation(){
+  let temp = Number(getComputedStyle($root).getPropertyValue("--breakPoint"));
+  if (flagBreakPoint != temp) {
+    flagBreakPoint = Number(
+      getComputedStyle($root).getPropertyValue("--breakPoint")
+    );
+    speedWaySize = $speedWay.getBoundingClientRect().width;
+    console.log(speedWaySize);
   }
 }
 
-function loadChallenge() {
-  selectFileChallenge();
-  load(htmlElements.challengeImage, fileChallengeTheLoad, showChallenge);
+// ---- End Start Game -------------------------
+
+// ---- Select Player ------------------
+
+function showSelectPlayer() {
+  $panelSelectPlayer.style.display = "flex";
+  $panelSelectPlayerTitle.style.display = "flex";
+  $SelectPlayerTitle.style.display = "block";
+  $selectPlayer.style.display = "flex";
+  $selectPlayerPrevious.style.display = "block";
+  $selectPlayerNext.style.display = "block";
+  $characters.style.display = "flex";
+  $charactersImg.style.display = "block";
+  $panelSelectPlayerOK.style.display = "block";
+  hideLoad();
+  showCharacters();
 }
 
-function showBattleZone() {
-  hideSelectPlayer();
-  htmlElements.battleZone.style.display = "grid";
-  htmlElements.containerChallenge.style.display = "flex";
-  htmlElements.speedWay.style.display = "flex";
-  htmlElements.word.style.display = "flex";
-  htmlElements.board.style.display = "flex";
-  loadChallenge();
-  showRacers();
+function hideSelectPlayer() {
+  $panelSelectPlayer.style.display = "none";
+  $panelSelectPlayerTitle.style.display = "none";
+  $SelectPlayerTitle.style.display = "none";
+  $selectPlayer.style.display = "none";
+  $selectPlayerPrevious.style.display = "none";
+  $selectPlayerNext.style.display = "none";
+  $characters.style.display = "none";
+  $charactersImg.style.display = "none";
+  $panelSelectPlayerOK.style.display = "none";
 }
 
-homeScreen.addEventListener("click", function () {
-  hideHomeScreen();
-  load(htmlElements.charactersImg, showSelectPlayer);
-});
+function showCharacters() {
+  $charactersImg.src = window.URL.createObjectURL(
+    charactersReturn[flagCharacter]
+  );
+}
 
-htmlElements.selectPlayerNext.addEventListener("click", function () {
-  if (flagCharacter < allCharacters.length - 1) {
+function loadCharacterThanking() {
+  let characterThanking = `../images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Thanking.png
+  `;
+  standardMessage = "O personagem não pode agradecer. Perdão";
+  standardMessageTime = 10000;
+  standardShowMessageFunctions[0] = hideLoad;
+  showLoad();
+  loadSingleFile(
+    characterThanking,
+    [showCharacterThanking, showMessage],
+    characterThankingReturn
+  );
+}
+
+function showCharacterThanking() {
+  $charactersImg.src = window.URL.createObjectURL(characterThankingReturn[0]);
+  hideLoad();
+  setTimeout(showBattleZone, 2000);
+}
+
+$selectPlayerNext.addEventListener("click", function () {
+  if (flagCharacter < characters.length - 1) {
     flagCharacter++;
     showCharacters();
   }
 });
 
-htmlElements.selectPlayerPrevious.addEventListener("click", function () {
+$selectPlayerPrevious.addEventListener("click", function () {
   if (flagCharacter >= 1) {
     flagCharacter--;
     showCharacters();
   }
 });
 
-htmlElements.panelSelectPlayerOK.addEventListener(
-  "click",
-  showCharactersThanking
-);
+$panelSelectPlayerOK.addEventListener("click", function () {
+  selectPlayerRacer();
+  loadCharacterThanking();
+});
+
+// ---- End Select player ----------
+
+// ---- Battle Zone ------------------------------------
+
+function showBattleZone() {
+  hideSelectPlayer();
+  $battleZone.style.display = "grid";
+  showChallenge();
+  showSpeedWay();
+  showBoard();
+  showWord();
+  loadElementsBattleZone();
+}
+
+function loadElementsBattleZone() {
+  showLoad();
+  selectChallenge();
+  selectOpponentRacer();
+  standardMessage = "Arquivos battle Zone Carregados";
+  standardMessageTime = 10000;
+  let temp = [];
+  temp[0] = selectedChallenge;
+  temp[1] = racers[0];
+  temp[2] = racers[1];
+  // console.log(temp);
+  loadMultipleFiles(
+    temp,
+    [showElementsBattleZone, null],
+    filesLoadedToTheBattleZone
+  );
+}
+
+function showElementsBattleZone() {
+  loadChallenge([filesLoadedToTheBattleZone[0]]);
+  showChallengeSelected();
+  loadRacers([filesLoadedToTheBattleZone[1], filesLoadedToTheBattleZone[2]]);
+  showRacers();
+}
+
+// ---- End Battle Zone ------------------------------------
+
+// ---- Challenges -----------------------------------------
+
+function showChallenge() {
+  $containerChallenge.style.display = "flex";
+  $challengeImage.style.display = "block";
+}
+
+function hideChallenge() {
+  $containerChallenge.style.display = "none";
+  $challengeImage.style.display = "none";
+}
+
+function selectChallenge() {
+  let level = eval(`challengesLevel${flagLevel}`);
+  let random = Math.floor(Math.random() * level.length);
+  let temp = `./images/challenges/level${flagLevel}/${level[random]}.png`;
+  selectedChallenge = temp;
+  defineChallengeWord();
+}
+
+function showChallengeSelected() {
+  hideLoad();
+  $challengeImage.src = window.URL.createObjectURL(selectedChallengeReturn[0]);
+}
+
+function loadChallenge(fileReturn) {
+  if (fileReturn != undefined) {
+    selectedChallengeReturn = fileReturn;
+  } else {
+    showLoad();
+    selectChallenge();
+    loadSingleFile(
+      selectedChallenge,
+      [showChallengeSelected, null],
+      selectedChallengeReturn
+    );
+  }
+}
+
+// ---- End Challenges -------------------------------------
+
+// ---- Word ------------------------------------------------
+
+function showWord() {
+  $wordContainer.style.display = "flex";
+  $word.style.display = "block";
+}
+
+function hideWord() {
+  $wordContainer.style.display = "none";
+  $word.style.display = "none";
+}
+
+function defineChallengeWord() {
+  let inicio = selectedChallenge.lastIndexOf("/") + 1;
+  let fim = selectedChallenge.lastIndexOf(".");
+  challengeWord = selectedChallenge.substring(inicio, fim).toUpperCase();
+  totalLetters = challengeWord.length;
+  letterCurrent = challengeWord.substring(
+    indexLetterCurrent,
+    indexLetterCurrent + 1
+  );
+}
+
+// ---- End Word -------------------------------------------
+
+// ---- Board ----------------------------------------------
+
+function showBoard() {
+  $board.style.display = "flex";
+  $containerLetters.style.display = "grid";
+}
+
+// ---- End Board -----------------------------------------
+
+// ---- Key Word -----------------------------------------
+
+for(let i = 0; i < ($keyWord.length - 5); i++){
+  $keyWord[i].addEventListener("click", write);
+}
+
+$keyWord[$keyWord.length - 1].addEventListener("click", writeHyphenSpace);
+$keyWord[$keyWord.length - 2].addEventListener("click", writeHyphenSpace);
+
+function changeCurrentLetter(){
+  indexLetterCurrent++;
+  letterCurrent = challengeWord.substring(
+    indexLetterCurrent,
+    indexLetterCurrent + 1
+  );
+};
+
+	function write() {
+    if ($word.textContent.length > 15) {
+      return;
+    }
+    if (event.currentTarget.id === letterCurrent) {
+      $word.textContent += event.currentTarget.id;
+      changeCurrentLetter();
+    } else {
+    }
+  };
+
+  function writeHyphenSpace(){
+    if ($word.textContent.length > 15) {
+      return;
+    }
+    switch (event.currentTarget.id) {
+      case 'hyphen':
+        // console.log('-');
+        if ('-' === letterCurrent) {
+          $word.textContent += '-';
+          changeCurrentLetter();
+        } else {
+        }
+      break;
+      case 'space':
+        // console.log(" space ");
+        if (' ' === letterCurrent) {
+          $word.textContent += ' ';
+          changeCurrentLetter();
+        } else {
+        }
+      break;
+      default:
+      break;
+    }
+  }
+
+// ---- End Key Word -----------------------------------------
+
+// ---- speedWay -------------------------------------------
+
+function selectPlayerRacer() {
+  racers[0] = `./images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Running.png`;
+}
+
+function selectOpponentRacer() {
+  let charactersTemp = characters;
+  charactersTemp.splice(flagCharacter, 1);
+  let random = Math.floor(Math.random() * charactersTemp.length);
+  racers[1] = `./images/cartoons/${charactersTemp[random]}/${charactersTemp[random]}Running.png`;
+  // console.log(racers[0], racers[1]);
+}
+
+function loadRacers(fileReturn) {
+  if (fileReturn != undefined) {
+    racersReturn = fileReturn;
+  } else {
+    showLoad();
+    selectOpponentRacer();
+    loadMultipleFiles(racers, [showRacers, null], racersReturn);
+  }
+}
+
+function showSpeedWay() {
+  $speedWay.style.display = "flex";
+}
+
+function hideSpeedWay() {
+  $speedWay.style.display = "none";
+}
 
 function showRacers() {
-  htmlElements.racerOne.style.display = "block";
-  htmlElements.racerTwo.style.display = "block";
+  hideLoad();
+  $racerOne.style.display = "block";
+  $racerTwo.style.display = "block";
+  $racerOneImg.style.display = "block";
+  $racerTwoImg.style.display = "block";
+  // console.log(racersReturn);
+  $racerOneImg.src = window.URL.createObjectURL(racersReturn[0]);
+  $racerTwoImg.src = window.URL.createObjectURL(racersReturn[1]);
 }
 
 function hideRacers() {
-  htmlElements.racerOne.style.display = "none";
-  htmlElements.racerTwo.style.display = "none";
+  $racerOne.style.display = "none";
+  $racerTwo.style.display = "none";
 }
 
-function selectRacers() {
-  competitors[0] = allCharacters[flagCharacter].file;
-  let indexSelected = Math.floor(Math.random() * allCharacters.length);
-  while (flagCharacter === indexSelected) {
-    indexSelected = Math.floor(Math.random() * allCharacters.length);
+// ---- End speedWay ---------------------------------------
+
+// ---- Loader files ------------------------
+
+function loadFiles(file, callbackTrueFalse, result) {
+  return new Promise(function (resolve, reject) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", file);
+    xhr.responseType = "blob";
+    xhr.send(null);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          result[flagLoadFiles] = xhr.response;
+          flagLoadFiles++;
+          if (flagLoadFiles >= 3) {
+            callbackTrueFalse[0]();
+            flagLoadFiles = 0;
+          }
+          resolve();
+        } else {
+          callbackTrueFalse[1]();
+          reject();
+        }
+      }
+    };
+  });
+}
+
+function loadFile(file, callbackTrueFalse, result) {
+  return new Promise(function (resolve, reject) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", file);
+    xhr.responseType = "blob";
+    xhr.send(null);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          result[0] = xhr.response;
+          callbackTrueFalse[0]();
+          resolve();
+        } else {
+          callbackTrueFalse[1]();
+          reject();
+        }
+      }
+    };
+  });
+}
+
+async function loadMultipleFiles(files, callbackTrueFalse, result) {
+  for (const temp of files) {
+    await loadFiles(temp, callbackTrueFalse, result);
   }
-  competitors[1] = allCharacters[indexSelected].file;
 }
 
-function positionCharacters() {
-  selectRacers();
-  racer1.src = `./images/cartoons/${competitors[0]}/${competitors[0]}.png`;
-  // racer1.style.transform = `translateX(${bobSponge.correndo.x}) translateY(${bobSponge.correndo.y}) scale(${bobSponge.correndo.scale},${bobSponge.correndo.scale})`;
-
-  racer2.src = `./images/cartoons/${competitors[1]}/${competitors[1]}.png`;
-  // racer2.style.transform = `translateX(${patrickStar.correndo.x}) translateY(${patrickStar.correndo.y}) scale(${patrickStar.correndo.scale},${patrickStar.correndo.scale})`;
+async function loadSingleFile(file, callbackTrueFalse, result) {
+  await loadFile(file, callbackTrueFalse, result);
 }
+
+// ---- The end Loader files
