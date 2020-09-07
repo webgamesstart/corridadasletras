@@ -274,6 +274,7 @@
 #OK {
   font-size: var(--panelSelectPlayerFontOK);
 }
+
 #OK:hover {
   color: rgb(255, 255, 255);
 }
@@ -406,6 +407,7 @@
 
 .keyWord:hover {
   background-color: #20fc18;
+  color: #fff;
 }
 
 /* #endregion keyWord */

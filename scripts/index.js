@@ -101,7 +101,7 @@ const challengesLevel000 = [
 let selectedChallenge = "";
 let selectedChallengeReturn = [];
 
-// ---- Word ------------------------------------------------
+// ---- Word ------------------------------------
 
 const $wordContainer = document.getElementById("word");
 const $word = document.querySelector("#word h2");
@@ -120,6 +120,8 @@ $containerLetters = document.getElementById("containerLetters");
 // ---- Key Word -----------------------------------------
 
 const $keyWord = document.getElementsByClassName("keyWord");
+
+let accent = '';
 
 // ---- speedWay -------------------------------------------
 
@@ -469,6 +471,9 @@ for(let i = 0; i < ($keyWord.length - 5); i++){
 
 $keyWord[$keyWord.length - 1].addEventListener("click", writeHyphenSpace);
 $keyWord[$keyWord.length - 2].addEventListener("click", writeHyphenSpace);
+$keyWord[$keyWord.length - 3].addEventListener("click", writeAccents);
+$keyWord[$keyWord.length - 4].addEventListener("click", writeAccents);
+$keyWord[$keyWord.length - 5].addEventListener("click", writeAccents);
 
 function changeCurrentLetter(){
   indexLetterCurrent++;
@@ -479,14 +484,21 @@ function changeCurrentLetter(){
 };
 
 	function write() {
+    let temp = ''
     if ($word.textContent.length > 15) {
       return;
     }
+    if(accent != '') temp = '&';
     if (event.currentTarget.id === letterCurrent) {
-      $word.textContent += event.currentTarget.id;
+      $word.innerHTML += `${temp}${event.currentTarget.id}${accent}`;
       changeCurrentLetter();
     } else {
     }
+    // if (event.currentTarget.id === letterCurrent) {
+    //   $word.textContent += event.currentTarget.id;
+    //   changeCurrentLetter();
+    // } else {
+    // }
   };
 
   function writeHyphenSpace(){
@@ -512,6 +524,26 @@ function changeCurrentLetter(){
       break;
       default:
       break;
+    }
+  }
+
+  function writeAccents() {
+    if (accent === "") {
+      event.currentTarget.style.backgroundColor = "#0f0";
+      event.currentTarget.style.color = "#fff";
+      accent = event.currentTarget.id;
+    } else if(accent === event.currentTarget.id){
+      document.getElementById(accent).style.backgroundColor = "#fff";
+      document.getElementById(accent).style.color = "#000";
+      accent = "";
+    }else{
+      event.currentTarget.style.backgroundColor = "#0f0";
+      event.currentTarget.style.color = "#fff";
+
+      document.getElementById(accent).style.backgroundColor = "#fff";
+      document.getElementById(accent).style.color = "#000";
+      
+      accent = event.currentTarget.id;
     }
   }
 
