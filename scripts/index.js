@@ -121,7 +121,7 @@ $containerLetters = document.getElementById("containerLetters");
 
 const $keyWord = document.getElementsByClassName("keyWord");
 
-let accent = '';
+let accent = ['',''];
 
 // ---- speedWay -------------------------------------------
 
@@ -469,6 +469,14 @@ for(let i = 0; i < ($keyWord.length - 5); i++){
   $keyWord[i].addEventListener("click", write);
 }
 
+for(let i = 0; i < $keyWord.length; i++){
+  $keyWord[i].addEventListener("mouseover", hover);
+}
+
+for(let i = 0; i < $keyWord.length; i++){
+  $keyWord[i].addEventListener("mouseout", out);
+}
+
 $keyWord[$keyWord.length - 1].addEventListener("click", writeHyphenSpace);
 $keyWord[$keyWord.length - 2].addEventListener("click", writeHyphenSpace);
 $keyWord[$keyWord.length - 3].addEventListener("click", writeAccents);
@@ -484,21 +492,25 @@ function changeCurrentLetter(){
 };
 
 	function write() {
-    let temp = ''
+    let temp = removeAccents(letterCurrent);
     if ($word.textContent.length > 15) {
       return;
     }
-    if(accent != '') temp = '&';
-    if (event.currentTarget.id === letterCurrent) {
-      $word.innerHTML += `${temp}${event.currentTarget.id}${accent}`;
-      changeCurrentLetter();
-    } else {
-    }
-    // if (event.currentTarget.id === letterCurrent) {
-    //   $word.textContent += event.currentTarget.id;
-    //   changeCurrentLetter();
-    // } else {
-    // }
+
+    if (event.currentTarget.id === temp) {
+      if (accent[0] != ''){
+        if (vowelOrConsonant(letterCurrent)) {
+          $word.innerHTML += `${accent[1]}${event.currentTarget.id}${accent[0]}`;
+          changeCurrentLetter();
+        } else {
+          $word.textContent += event.currentTarget.id;
+          changeCurrentLetter();
+        }
+      }else{
+        $word.textContent += letterCurrent;
+        changeCurrentLetter();
+      }
+    } 
   };
 
   function writeHyphenSpace(){
@@ -527,25 +539,71 @@ function changeCurrentLetter(){
     }
   }
 
-  function writeAccents() {
-    if (accent === "") {
-      event.currentTarget.style.backgroundColor = "#0f0";
-      event.currentTarget.style.color = "#fff";
-      accent = event.currentTarget.id;
-    } else if(accent === event.currentTarget.id){
-      document.getElementById(accent).style.backgroundColor = "#fff";
-      document.getElementById(accent).style.color = "#000";
-      accent = "";
-    }else{
-      event.currentTarget.style.backgroundColor = "#0f0";
-      event.currentTarget.style.color = "#fff";
+  function hover(){
+    event.currentTarget.style.backgroundColor = "#20fc18";
+    event.currentTarget.style.color = "#fff";
+  }
 
-      document.getElementById(accent).style.backgroundColor = "#fff";
-      document.getElementById(accent).style.color = "#000";
-      
-      accent = event.currentTarget.id;
+  function out(){
+    event.currentTarget.style.backgroundColor = "#fff";
+    event.currentTarget.style.color = "#000";
+  }
+
+  function writeAccents() {
+    if (accent[0] === "") {
+      event.currentTarget.style.border = "2px solid #000";
+      accent[0] = event.currentTarget.id;
+      accent[1] = "&";
+    }else{
+      if (accent[0] === event.currentTarget.id) {
+        document.getElementById(accent[0]).style.border = "none";
+        clearAccent();
+      } else {
+        event.currentTarget.style.border = "2px solid #000";
+        clearKeyAccents();
+        accent[0] = event.currentTarget.id;
+        accent[1] = "&";
+      }
     }
   }
+    
+    
+
+  function clearKeyAccents(){
+    if (accent[0] != '') {
+      document.getElementById(accent[0]).style.border = 'none';
+    }
+  }
+
+  function clearAccent(){
+    accent[0] = "";
+    accent[1] = "";
+  }
+
+  function removeAccents(str){
+    let vowelAccented = "Á Â Ã É Ê Ẽ Í Ĩ Î Ó Õ Ô Ú Û Ũ".split(" ");
+    let vowel = "A A A E E E I I I O O O U U U".split(" ");
+    for(let i = 0; i < vowelAccented.length;i++ ){
+      if(str === vowelAccented[i]){
+        str = vowel[i];
+        return str;
+      }
+    }
+    str = str;
+    return str;
+  }
+
+  function vowelOrConsonant(str) {
+    let vowel = "A E I O U".split(" ");
+    for (let i = 0; i < vowel.length; i++) {
+      if (str === vowel[i]) {
+        return true;
+      };
+    }
+    return false;
+  }
+
+
 
 // ---- End Key Word -----------------------------------------
 
