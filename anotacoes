@@ -1,7 +1,17 @@
 acentuar vogais que não são acentuadas
+ok
 
 tentar acentuar consoantes
+ok - verifiquei vogais apenas
 
 hover dos acentos deixam de funcionar
 ok
+----------------------------------
 
+totalLetters
+speedWaySize
+stepTrack = speedWaySize / totalLetters;
+
+
+vertically
+horizontally

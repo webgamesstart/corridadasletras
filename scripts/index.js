@@ -143,6 +143,11 @@ let myText = {
 
 $speedWay = document.getElementById("speedWay");
 let speedWaySize = 0;
+let stepTrack = 0;
+let stepTrackTemp = 0;
+let stepTrackRacerOne = 0;
+let stepTrackRacerTwo = 0;
+let direction = 'top';
 
 $racerOne = document.getElementById("racerOne");
 $racerTwo = document.getElementById("racerTwo");
@@ -277,16 +282,51 @@ function startGame() {
   document.removeEventListener("click", startGame);
 }
 
-function upadateInformation(){
+function upadateInformation() {
   let temp = Number(getComputedStyle($root).getPropertyValue("--breakPoint"));
   if (flagBreakPoint != temp) {
     flagBreakPoint = Number(
       getComputedStyle($root).getPropertyValue("--breakPoint")
     );
-    speedWaySize = $speedWay.getBoundingClientRect().width;
-    console.log(speedWaySize);
+    if (flagBreakPoint === 1) {
+      speedWaySize = $speedWay.getBoundingClientRect().width;
+      stepTrack = speedWaySize / totalLetters;
+      stepTrackRacerOne = stepTrack;
+      stepTrackRacerTwo = stepTrack;
+      direction = "right";
+    } else {
+      speedWaySize = $speedWay.getBoundingClientRect().height;
+      stepTrack = speedWaySize / totalLetters;
+      stepTrackTemp = stepTrack;
+      stepTrackRacerOne = stepTrack;
+      stepTrackRacerTwo = stepTrack;
+      direction = "top";
+    }
+    // console.log(speedWaySize);
   }
 }
+
+function initialInformation() {
+  flagBreakPoint = Number(
+    getComputedStyle($root).getPropertyValue("--breakPoint")
+  );
+  if (flagBreakPoint === 1) {
+    speedWaySize = $speedWay.getBoundingClientRect().width;
+    stepTrack = speedWaySize / totalLetters;
+    stepTrackRacerOne = stepTrack;
+    stepTrackRacerTwo = stepTrack;
+    direction = "right";
+  } else {
+    speedWaySize = $speedWay.getBoundingClientRect().height;
+    stepTrack = speedWaySize / totalLetters;
+    stepTrackRacerOne = stepTrack;
+    stepTrackRacerTwo = stepTrack;
+    direction = 'top';
+  }
+  // console.log(speedWaySize);
+}
+
+// initialInformation();
 
 // ---- End Start Game -------------------------
 
@@ -375,6 +415,8 @@ function showBattleZone() {
   showBoard();
   showWord();
   loadElementsBattleZone();
+  initialInformation();
+  
 }
 
 function loadElementsBattleZone() {
@@ -527,6 +569,9 @@ function write() {
   if(letterCurrent === myText.letter){
      $word.textContent += myText.letter;
      changeCurrentLetter();
+     RunRacerOne();
+  }else{
+     RunRacerTwo();
   }
   
 
@@ -662,6 +707,27 @@ function hideRacers() {
   $racerOne.style.display = "none";
   $racerTwo.style.display = "none";
 }
+
+function repositionRacersHorizontally() {
+  
+}
+
+
+function repositionRacersVertically() {
+
+}
+
+function RunRacerOne(){
+  $racerOne.style[direction] = "-" + stepTrackRacerOne + "px";
+  stepTrackRacerOne += stepTrack;
+}
+
+function RunRacerTwo(){
+  $racerTwo.style[direction] = "-" + stepTrackRacerTwo + "px";
+  stepTrackRacerTwo += stepTrack;
+}
+
+
 
 // ---- End speedWay ---------------------------------------
 
