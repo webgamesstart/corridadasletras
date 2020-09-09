@@ -121,7 +121,23 @@ $containerLetters = document.getElementById("containerLetters");
 
 const $keyWord = document.getElementsByClassName("keyWord");
 
-let accent = ['',''];
+  let currentObject = null;
+  let previousObject = null;
+
+let myText = {
+  letter: "",
+  symbol: "",
+  controlObject: (obj) => {
+    if (currentObject == null) {
+      previousObject = obj;
+      currentObject = obj;
+    } else {
+      previousObject = currentObject;
+      currentObject = obj;
+    }
+    // console.log(currentObject.id, "---", previousObject.id, '2');
+  },
+};
 
 // ---- speedWay -------------------------------------------
 
@@ -465,7 +481,7 @@ function showBoard() {
 
 // ---- Key Word -----------------------------------------
 
-for(let i = 0; i < ($keyWord.length - 5); i++){
+for(let i = 0; i < ($keyWord.length - 3); i++){
   $keyWord[i].addEventListener("click", write);
 }
 
@@ -477,11 +493,19 @@ for(let i = 0; i < $keyWord.length; i++){
   $keyWord[i].addEventListener("mouseout", out);
 }
 
-$keyWord[$keyWord.length - 1].addEventListener("click", writeHyphenSpace);
-$keyWord[$keyWord.length - 2].addEventListener("click", writeHyphenSpace);
+$keyWord[$keyWord.length - 1].addEventListener("click", writeAccents);
+$keyWord[$keyWord.length - 2].addEventListener("click", writeAccents);
 $keyWord[$keyWord.length - 3].addEventListener("click", writeAccents);
-$keyWord[$keyWord.length - 4].addEventListener("click", writeAccents);
-$keyWord[$keyWord.length - 5].addEventListener("click", writeAccents);
+
+function hover() {
+  event.currentTarget.style.backgroundColor = "#20fc18";
+  event.currentTarget.style.color = "#fff";
+}
+
+function out() {
+  event.currentTarget.style.backgroundColor = "#fff";
+  event.currentTarget.style.color = "#000";
+}
 
 function changeCurrentLetter(){
   indexLetterCurrent++;
@@ -491,117 +515,101 @@ function changeCurrentLetter(){
   );
 };
 
-	function write() {
-    let temp = removeAccents(letterCurrent);
-    if ($word.textContent.length > 15) {
-      return;
-    }
+function write() {
+  if ($word.textContent.length > 15) {
+    return;
+  }
+  definingLetter(event)
+  if(myText.symbol!= ''){
+    myText.letter = joiningLetterAndAccent();
+    clearSymbolAndBorders();
+  }
+  if(letterCurrent === myText.letter){
+     $word.textContent += myText.letter;
+     changeCurrentLetter();
+  }
+  
 
-    if (event.currentTarget.id === temp) {
-      if (accent[0] != ''){
-        if (vowelOrConsonant(letterCurrent)) {
-          $word.innerHTML += `${accent[1]}${event.currentTarget.id}${accent[0]}`;
-          changeCurrentLetter();
-        } else {
-          $word.textContent += event.currentTarget.id;
-          changeCurrentLetter();
-        }
-      }else{
-        $word.textContent += letterCurrent;
-        changeCurrentLetter();
-      }
-    } 
-  };
+};
 
-  function writeHyphenSpace(){
-    if ($word.textContent.length > 15) {
-      return;
+
+function definingLetter(ev){
+switch (ev.currentTarget.id) {
+  case 'hyphen':
+    myText.letter = '-';
+  break;
+  case 'space':
+    myText.letter = ' ';
+  break;
+  default:
+    myText.letter = ev.currentTarget.id;
+  break;
+}
+}
+
+function definingSymbolAndBorders(str) {
+  if (myText.symbol == "") {
+    myText.symbol = str;
+    currentObject.style.border = "2px solid #000";
+    // console.log("Acento colocado");
+  } else {
+    if (currentObject.id == previousObject.id) {
+      // console.log(currentObject.id, previousObject.id);
+      myText.symbol = "";
+      currentObject.style.border = "none";
+      // console.log("Acento retirado");
+    } else {
+      myText.symbol = str;
+      currentObject.style.border = "2px solid #000";
+      previousObject.style.border = "none";
+      // console.log("Acento atualizado");
     }
+  }
+}
+
+function clearSymbolAndBorders() {
+  myText.symbol = "";
+  currentObject.style.border = "none";
+  previousObject.style.border = "none";
+  currentObject = null;
+  previousObject = null;
+}
+  
+
+
+function writeAccents(){
+  // console.log(event.currentTarget.id, '1');
+  myText.controlObject(event.currentTarget);
     switch (event.currentTarget.id) {
-      case 'hyphen':
-        // console.log('-');
-        if ('-' === letterCurrent) {
-          $word.textContent += '-';
-          changeCurrentLetter();
-        } else {
-        }
-      break;
-      case 'space':
-        // console.log(" space ");
-        if (' ' === letterCurrent) {
-          $word.textContent += ' ';
-          changeCurrentLetter();
-        } else {
-        }
-      break;
+      case "circ":
+        definingSymbolAndBorders("^");
+        // console.log(event.currentTarget.id, '3');
+        break;
+      case "tilde":
+        definingSymbolAndBorders("~");
+        // console.log(event.currentTarget.id,'3');
+        break;
+      case "acute":
+        definingSymbolAndBorders("´");
+        // console.log(event.currentTarget.id,'3');
+        break;
       default:
-      break;
+        break;
+    }
+}
+
+function joiningLetterAndAccent() {
+  let vowelAccented = "Á Â Ã É Ê Ẽ Í Ĩ Î Ó Õ Ô Ú Û Ũ".split(" ");
+  let vowel = "A A A E E E I I I O O O U U U".split(" ");
+  let accents = "´ ^ ~ ´ ^ ~ ´ ^ ~ ´ ^ ~ ´ ^ ~".split(' ');
+  for(let i = 0; i < vowelAccented.length; i++){
+    if(vowel[i] === myText.letter && accents[i] === myText.symbol){
+      return vowelAccented[i];
     }
   }
+  return myText.letter;
+}
 
-  function hover(){
-    event.currentTarget.style.backgroundColor = "#20fc18";
-    event.currentTarget.style.color = "#fff";
-  }
-
-  function out(){
-    event.currentTarget.style.backgroundColor = "#fff";
-    event.currentTarget.style.color = "#000";
-  }
-
-  function writeAccents() {
-    if (accent[0] === "") {
-      event.currentTarget.style.border = "2px solid #000";
-      accent[0] = event.currentTarget.id;
-      accent[1] = "&";
-    }else{
-      if (accent[0] === event.currentTarget.id) {
-        document.getElementById(accent[0]).style.border = "none";
-        clearAccent();
-      } else {
-        event.currentTarget.style.border = "2px solid #000";
-        clearKeyAccents();
-        accent[0] = event.currentTarget.id;
-        accent[1] = "&";
-      }
-    }
-  }
-    
-    
-
-  function clearKeyAccents(){
-    if (accent[0] != '') {
-      document.getElementById(accent[0]).style.border = 'none';
-    }
-  }
-
-  function clearAccent(){
-    accent[0] = "";
-    accent[1] = "";
-  }
-
-  function removeAccents(str){
-    let vowelAccented = "Á Â Ã É Ê Ẽ Í Ĩ Î Ó Õ Ô Ú Û Ũ".split(" ");
-    let vowel = "A A A E E E I I I O O O U U U".split(" ");
-    for(let i = 0; i < vowelAccented.length;i++ ){
-      if(str === vowelAccented[i]){
-        str = vowel[i];
-        return str;
-      }
-    }
-    str = str;
-    return str;
-  }
-
-  function vowelOrConsonant(str) {
-    let vowel = "A E I O U".split(" ");
-    for (let i = 0; i < vowel.length; i++) {
-      if (str === vowel[i]) {
-        return true;
-      };
-    }
-    return false;
-  }
 
 
 
