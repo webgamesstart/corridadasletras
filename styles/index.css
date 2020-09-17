@@ -48,6 +48,10 @@
   --racerTwoY: -80px;
 }
 
+a{
+   display: block;
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -102,8 +106,8 @@
 
 #homeScreen,
 #homeScreen h1,
-#homeScreen h3,
-#homeScreen h3 a{
+#homeScreen h3
+{
   display: block;
   color: #fff;
 }
