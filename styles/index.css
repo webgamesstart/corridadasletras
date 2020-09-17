@@ -102,7 +102,8 @@
 
 #homeScreen,
 #homeScreen h1,
-#homeScreen h3 {
+#homeScreen h3,
+#homeScreen h3 a{
   display: block;
   color: #fff;
 }
