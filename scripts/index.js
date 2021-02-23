@@ -272,7 +272,7 @@ function startGame() {
   for (let i = 0; i < characters.length; i++) {
     charactersTemp[
       i
-    ] = `../images/cartoons/${characters[i]}/${characters[i]}Expectation.png`;
+    ] = `../corridadasletras/images/cartoons/${characters[i]}/${characters[i]}Expectation.png`;
   }
   loadMultipleFiles(
     charactersTemp,
@@ -365,7 +365,7 @@ function showCharacters() {
 }
 
 function loadCharacterThanking() {
-  let characterThanking = `../images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Thanking.png
+  let characterThanking = `../corridadasletras/images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Thanking.png
   `;
   standardMessage = "O personagem não pode agradecer. Perdão";
   standardMessageTime = 10000;
@@ -663,14 +663,14 @@ function joiningLetterAndAccent() {
 // ---- speedWay -------------------------------------------
 
 function selectPlayerRacer() {
-  racers[0] = `./images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Running.png`;
+  racers[0] = `./corridadasletras/images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Running.png`;
 }
 
 function selectOpponentRacer() {
   let charactersTemp = characters;
   charactersTemp.splice(flagCharacter, 1);
   let random = Math.floor(Math.random() * charactersTemp.length);
-  racers[1] = `./images/cartoons/${charactersTemp[random]}/${charactersTemp[random]}Running.png`;
+  racers[1] = `./corridadasletras/images/cartoons/${charactersTemp[random]}/${charactersTemp[random]}Running.png`;
   // console.log(racers[0], racers[1]);
 }
 
