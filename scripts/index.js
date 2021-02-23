@@ -461,7 +461,7 @@ function hideChallenge() {
 function selectChallenge() {
   let level = eval(`challengesLevel${flagLevel}`);
   let random = Math.floor(Math.random() * level.length);
-  let temp = `./images/challenges/level${flagLevel}/${level[random]}.png`;
+  let temp = `../images/challenges/level${flagLevel}/${level[random]}.png`;
   selectedChallenge = temp;
   defineChallengeWord();
 }
