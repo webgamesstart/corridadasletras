@@ -461,7 +461,7 @@ function hideChallenge() {
 function selectChallenge() {
   let level = eval(`challengesLevel${flagLevel}`);
   let random = Math.floor(Math.random() * level.length);
-  let temp = `../corridadasletras/images/challenges/level${flagLevel}/${level[random]}.png`;
+  let temp = `./images/challenges/level${flagLevel}/${level[random]}.png`;
   selectedChallenge = temp;
   defineChallengeWord();
 }
@@ -663,14 +663,14 @@ function joiningLetterAndAccent() {
 // ---- speedWay -------------------------------------------
 
 function selectPlayerRacer() {
-  racers[0] = `./corridadasletras/images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Running.png`;
+  racers[0] = `../corridadasletras/images/cartoons/${characters[flagCharacter]}/${characters[flagCharacter]}Running.png`;
 }
 
 function selectOpponentRacer() {
   let charactersTemp = characters;
   charactersTemp.splice(flagCharacter, 1);
   let random = Math.floor(Math.random() * charactersTemp.length);
-  racers[1] = `./corridadasletras/images/cartoons/${charactersTemp[random]}/${charactersTemp[random]}Running.png`;
+  racers[1] = `../corridadasletras/images/cartoons/${charactersTemp[random]}/${charactersTemp[random]}Running.png`;
   // console.log(racers[0], racers[1]);
 }
 
