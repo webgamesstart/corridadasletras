@@ -433,7 +433,7 @@ function loadElementsBattleZone() {
   loadMultipleFiles(
     temp,
     [showElementsBattleZone, null],
-    temp
+    filesLoadedToTheBattleZone
   );
 }
 
